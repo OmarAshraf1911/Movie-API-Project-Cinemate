@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useTitle } from "../hooks/useTitle";
 import Backup from "../assets/images/backup.png";
 import { Link } from "react-router-dom";
 
 export const MovieDetail = () => {
   const params = useParams();
   const [movie, setMovie] = useState({});
+  useTitle(movie.title);
   const image = movie.poster_path
     ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
     : Backup;
@@ -19,7 +21,7 @@ export const MovieDetail = () => {
       setMovie(json);
     }
     fetchMovie();
-  }, []);
+  }, [params.id]);
 
   return (
     <main>
@@ -84,7 +86,12 @@ export const MovieDetail = () => {
           </p>
           <p className="my-4">
             <span className="mr-2 font-bold">IMDB Code:</span>
-            <span>{movie.imdb_id}</span>
+            <a
+              href={`https://www.imdb.com/title/${movie.imdb_id}`}
+              target="_blank"
+            >
+              {movie.imdb_id}
+            </a>
           </p>
         </div>
       </section>
